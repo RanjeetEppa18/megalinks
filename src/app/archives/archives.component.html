@@ -1,0 +1,206 @@
+<div class="m-3">
+  <!-- <div class="d-flex justify-content-center align-items-center">
+    <h1 class="display-4">
+      <small class="badge badge-pill badge-primary mega-color">MEGALINKS
+        ARCHIVE</small>
+    </h1>
+  </div> -->
+  <nav
+    class="navbar  sticky-top navbar-light bg-light justify-content-between back"
+  >
+    <a class="navbar-brand">Megalinks Archives</a>
+    <form class="form-inline">
+      <div class="d-flex align-items-center">
+        <span style="color: #ffc107;font-size: xx-large;" class="mr-1">•</span>
+        <span class="navbar-brand">
+          {{ (me$ | async) && titleCase((me$ | async).email) }}
+        </span>
+        <span style="width:18px;">
+          <img style="width:100%" src="/assets/images/logout.svg" />
+        </span>
+      </div>
+    </form>
+  </nav>
+
+  <div
+    class="form-group pt-3 back"
+    style="position: sticky; top: 3.5rem;z-index: 999;margin-bottom: 0 !important;padding-bottom:1rem; background: #f9f9f9"
+  >
+    <div class="search d-flex neu-morphism">
+      <strong class="col-form-label-lg" style="top:1rem">
+        <svg
+          class="svg"
+          height="20"
+          width="20"
+          viewBox="0 0 24 24"
+          aria-label="Search icon"
+          role="img"
+        >
+          <path
+            d="M10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6m13.12 2.88l-4.26-4.26A9.842 9.842 0 0 0 20 10c0-5.52-4.48-10-10-10S0 4.48 0 10s4.48 10 10 10c1.67 0 3.24-.41 4.62-1.14l4.26 4.26a3 3 0 0 0 4.24 0 3 3 0 0 0 0-4.24"
+            style="fill: #8e8e8e;"
+          ></path>
+        </svg>
+      </strong>
+      <input
+        type="text"
+        name="search"
+        autocomplete="off"
+        class="form-control-lg"
+        id="exampleInputSearch"
+        [(ngModel)]="searchTerm"
+        placeholder="Search"
+        (input)="searchAndFilter(searchType)"
+      />
+      <div class="btn-group d-grid align-items-center" dropdown>
+        <button
+          id="button-basic"
+          dropdownToggle
+          type="button"
+          class="btn btn-primary dropdown-toggle cust-btn"
+          aria-controls="dropdown-basic"
+        >
+          Search : {{ searchType }} <span class="caret"></span>
+        </button>
+        <ul
+          id="dropdown-basic"
+          *dropdownMenu
+          class="dropdown-menu"
+          role="menu"
+          aria-labelledby="button-basic"
+        >
+          <li
+            role="menuitem"
+            class="dropdown-item"
+            (click)="setSearchType('ordinary')"
+          >
+            ordinary
+          </li>
+          <li class="divider dropdown-divider"></li>
+          <li
+            role="menuitem"
+            class="dropdown-item"
+            (click)="setSearchType('keyword')"
+          >
+            keyword
+          </li>
+          <li class="divider dropdown-divider"></li>
+          <li
+            role="menuitem"
+            class="dropdown-item"
+            (click)="setSearchType('deep')"
+          >
+            deep
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <pagination
+    *ngIf="filteredArchives?.length > itemsPerPage"
+    [totalItems]="filteredArchives?.length"
+    [maxSize]="3"
+    [itemsPerPage]="itemsPerPage"
+    [(ngModel)]="currentPage"
+    [rotate]="true"
+    [boundaryLinks]="true"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    (ngModelChange)="updateRowRange()"
+    class="mr-2 mt-3 d-flex justify-content-center"
+  >
+  </pagination>
+
+  <!-- Archives -->
+  <div class="list-group">
+    <span
+      *ngFor="let archive of filteredArchives | slice: range.start:range.end"
+      class="card list-group-item list-group-item-action cursor-pointer d-grid list-frame neu-morphism"
+      (click)="openModal(staticBackdrop, archive)"
+    >
+      <span style="font-size: 1.2rem;border-right: dashed;">{{
+        archive.title
+      }}</span>
+      <span class="circle">
+        <span
+          style="font-size: 1rem;"
+          class="badge badge-primary badge-pill badge-score circle-content"
+          >{{ archive.score }}</span
+        >
+      </span>
+    </span>
+  </div>
+
+  <!-- pagination -->
+  <pagination
+    *ngIf="filteredArchives?.length > itemsPerPage"
+    [totalItems]="filteredArchives?.length"
+    [maxSize]="3"
+    [itemsPerPage]="itemsPerPage"
+    [(ngModel)]="currentPage"
+    [rotate]="true"
+    [boundaryLinks]="true"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    (ngModelChange)="updateRowRange()"
+    class="mr-2 mt-3 d-flex justify-content-center"
+  >
+  </pagination>
+
+  <!-- Modal -->
+  <ng-template #staticBackdrop>
+    <div class="modal-header">
+      <span class="post-header"
+        ><b>r/{{ currentArchive && currentArchive.subreddit }}</b> •
+        <span>posted by</span>&nbsp;<b
+          >u/{{ currentArchive && currentArchive.author }}</b
+        ></span
+      >
+      <strong class="modal-title pull-left self-text">{{
+        currentArchive && currentArchive.title
+      }}</strong>
+      <button
+        type="button"
+        class="close pull-right"
+        aria-label="Close"
+        (click)="modalRef.hide()"
+      >
+        <span
+          aria-hidden="true"
+          style="font-size: 40px; font-weight: 100;color: white;"
+          >&times;</span
+        >
+      </button>
+    </div>
+    <small class="modal-body overflow-auto markdown-body self-text card-black">
+      <markdown
+        *ngIf="currentArchive && currentArchive.selftext"
+        [data]="currentArchive && currentArchive.selftext"
+      >
+      </markdown>
+      <div
+        *ngIf="currentArchive && !currentArchive.selftext"
+        style="text-align: center; font-family: proxima;font-weight: bolder;"
+      >
+        <div>
+          <span style="width:3rem;">
+            <img
+              style="width:5rem;"
+              class="card-black"
+              src="/assets/images/sailor-moon-luna-cat.svg"
+            />
+          </span>
+        </div>
+        <markdown data="wow, such an empty"></markdown>
+      </div>
+    </small>
+    <div class="modal-footer black">
+      <div class="post-header">Comments</div>
+      <div class="card card-black">
+        <app-comments [comments]="commentsTree"></app-comments>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Modal -->
+</div>

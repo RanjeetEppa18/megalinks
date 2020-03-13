@@ -1,0 +1,15 @@
+<div class="markdown-body">
+    <blockquote *ngFor="let comment of comments">
+        <span class="post-header">
+            <b>
+                <p>u/{{comment.author}} • <span style="font-size: 0.875em;">{{comment.score}} points</span></p>
+            </b>
+        </span>
+        <div class="markdown-wrapper self-text">
+            <markdown [data]="comment.body"></markdown>
+        </div>
+        <div *ngIf="comment.children && comment.children.length > 0">
+            <app-comments [comments]="comment.children"></app-comments>
+        </div>
+    </blockquote>
+</div>

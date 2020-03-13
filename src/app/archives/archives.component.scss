@@ -1,0 +1,197 @@
+::ng-deep markdown p:nth-last-child(1) {
+  margin-bottom: 0px !important;
+}
+
+::ng-deep .markdown-body table {
+  color: white !important;
+}
+
+::ng-deep .markdown-body table tr {
+  background-color: #ffc107;
+}
+
+::ng-deep .markdown-body table tr:nth-child(2n) {
+  background-color: #d39e00;
+}
+
+.markdown-body .markdown-wrapper:nth-last-child(1) {
+  margin-bottom: 0;
+  padding-bottom: 16px;
+}
+
+.fix-pos {
+  position: absolute;
+  right: 2rem;
+  top: 6rem;
+}
+
+.modal-lg {
+  width: 90% !important;
+}
+
+.modal-header {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 10fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  border-bottom: none;
+}
+
+.close {
+  grid-column-start: 2;
+  opacity: 1;
+}
+
+.modal-title {
+  grid-row-start: 2;
+}
+
+.post-header {
+  color: #8e8e8e !important;
+}
+
+.modal-footer {
+  display: grid;
+  justify-content: normal;
+  padding: 0.75rem 0;
+  border-top: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.back-color {
+  background: #ececec;
+}
+
+.card-black {
+  background: #1b1b1b;
+}
+
+.back-color > .card {
+  padding: 0.5rem;
+}
+
+.score {
+  width: fit-content;
+  right: 0;
+  background: #ececec;
+}
+
+.badge-score {
+  margin: 10px;
+  align-self: center;
+}
+
+::ng-deep .markdown-body blockquote {
+  border-left: 1px solid #555555;
+  color: #8e8e8e !important;
+}
+
+.search {
+  background: #ebecf0;
+  padding: 0 1rem;
+  border-radius: 10px;
+}
+
+.list-group-item {
+  color: #4f4d4d;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+::ng-deep .modal-content {
+  background: black !important;
+}
+
+app-comments .markdown-body blockquote {
+  color: white !important;
+}
+
+.card {
+  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25) !important;
+}
+// .search:focus {
+//     color: #495057;
+//     outline: 0;
+// }
+
+// .search:hover  {
+//     box-shadow: 0 0 0 4px rgba(0,132,255,.5);
+// }
+
+input {
+  width: 100%;
+  text-transform: capitalize;
+  border: 0;
+  color: #354363;
+  background: #ebecf0;
+  font-weight: bold;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    Helvetica, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', メイリオ,
+    Meiryo, 'ＭＳ Ｐゴシック', Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+input:focus {
+  outline: 0;
+}
+
+.svg {
+  width: 25px;
+  height: 25px;
+}
+
+.back {
+  background: #ebecf0 !important;
+}
+
+.navbar-brand {
+  color: #4f4d4d;
+  font-weight: bold;
+}
+
+.cust-btn {
+  color: #ec6262;
+  font-weight: bold;
+  background-color: #ebecf0;
+  border-color: #ebecf0;
+}
+
+.primary.dropdown-toggle {
+  color: #fff;
+  background-color: #ebecf0;
+  border-color: #ebecf0;
+}
+
+.btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0);
+}
+
+.dropdown-menu {
+  min-width: -webkit-fill-available;
+  cursor: pointer;
+  padding: 0rem 0;
+}
+
+.dropdown-item {
+  color: #5e5d5b;
+  font-weight: bold;
+  padding: 0.7rem 1.5rem;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  color: #fff !important;
+  background-color: #d39e00;
+}
+
+.dropdown-divider {
+  margin: 0 0;
+}
+
+.list-group-item-action:active {
+  background-color: #32daff;
+}

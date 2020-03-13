@@ -1,0 +1,130 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: oxygen;
+  src: url(./assets/fonts/oxygen.regular.ttf);
+}
+
+@font-face {
+  font-family: 'fira-code';
+  src: url(./assets/fonts/FiraCode-Regular.ttf);
+}
+
+@font-face {
+  font-family: proxima;
+  src: url(./assets/fonts/proxima-nova-soft-w03-regular.ttf);
+}
+
+$green: #2ecc71;
+$red: #e74c3c;
+$blue: #3498db;
+$yellow: #f1c40f;
+$purple: #8e44ad;
+$turquoise: #1abc9c;
+$mega-backgrond: #33597e;
+$badge-primary: #354363;
+
+.mega-color {
+  background: #f30404 !important;
+}
+
+.mega-background {
+  background: #33597e !important;
+}
+
+.page-link {
+  border-radius: 10px;
+  margin: 0 10px;
+}
+
+.page-item.active .page-link {
+  @extend .neu-morphism;
+  background-color: #e22020 !important;
+  border-color: #e22020 !important;
+  color: #ffffff !important;
+  font-weight: bold;
+}
+
+.page-item.disabled .page-link {
+  pointer-events: all !important;
+  cursor: not-allowed !important;
+}
+
+.badge-primary {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+.color-white {
+  color: #ffffff !important;
+}
+
+a {
+  color: #0b2c79 !important;
+}
+
+.modal-content a {
+  color: #f1e120 !important;
+  text-decoration: overline !important;
+}
+
+.modal-content table a {
+  color: #0b40ff !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.btn-fas {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid $red;
+  border-radius: 0.6em;
+  color: $red;
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  padding: 1.2em 2.8em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+  }
+}
+
+.d-grid {
+  display: grid !important;
+}
+
+.list-frame {
+  grid-auto-flow: column;
+  grid-auto-columns: auto 4rem;
+  align-items: center;
+}
+
+.neu-morphism {
+  box-shadow: -2px -3px 0px 0px rgba(255, 255, 255, 1),
+    4px 2px 0px 0px rgba(0, 0, 0, 0.3);
+}
+
+.dark {
+  margin-bottom: 20px;
+  @extend .neu-morphism;
+}
+
+.black {
+  background: black !important;
+}
+
+.self-text {
+  color: #d5d5d5 !important;
+}

@@ -1,0 +1,12 @@
+.pos-abs {
+    position: absolute;
+    right: 0;
+}
+
+.markdown-wrapper {
+    margin-bottom: 16px;
+}
+
+.markdown-body .markdown-wrapper:nth-last-child(1) {
+    margin-bottom: 0;
+}
