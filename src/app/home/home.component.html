@@ -1,31 +1,141 @@
 <div class="m-3">
-    <form>
-        <div class="jumbotron mega-background">
-            <h1 class="display-4">Welcome to <small class="badge badge-pill badge-primary mega-color">MEGALINKS
-                    ARCHIVE</small></h1>
-            <p class="lead">This is the site, which contains some of your favourite megalinks post from <a href="https://reddit.com"
-                    target="_blank">reddit.com</a> .</p>
-            <hr class="my-4">
-            <p class="color-white">It uses utility classes for typography and spacing to space content out within the
-                larger container.</p>
+  <form>
+    <div class="jumbotron mega-background jumbotron-padding-fix">
+      <h1 class="display-4">
+        Welcome to
+        <small class="badge badge-pill badge-primary mega-color"
+          >MEGALINKS ARCHIVE</small
+        >
+      </h1>
+      <p class="lead">
+        This is the site, which contains some of your favourite megalinks post
+        from
+        <a
+          href="https://reddit.com"
+          target="_blank"
+          style="color: gold !important;"
+          >reddit.com</a
+        >
+      </p>
+      <hr class="my-4" />
+      <p class="color-white">
+        It uses utility classes for typography and spacing to space content out
+        within the larger container.
+      </p>
+      <div style="text-align: center;">
+        <button
+          class="btn btn-primary"
+          (click)="openModal(loginModal, 'modal-dialog-centered')"
+        >
+          LOGIN
+        </button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1" class="col-form-label col-form-label-lg"
+        >Email address</label
+      >
+      <input
+        type="email"
+        class="form-control form-control-lg"
+        id="exampleInputEmail1"
+        autocomplete="off"
+        aria-describedby="emailHelp"
+        [(ngModel)]="email"
+        placeholder="example@mega.nz"
+        name="email"
+      />
+      <small id="emailHelp" class="form-text text-muted"
+        >We'll never share your email with anyone else.</small
+      >
+      <small id="emailHelp" class="form-text text-muted badge"
+        >EMAIL | <span class="text-primary">{{ email }}</span></small
+      >
+    </div>
+    <div class="form-group">
+      <label
+        for="exampleInputPassword1"
+        class="col-form-label col-form-label-lg"
+        >Password</label
+      >
+      <input
+        type="password"
+        name="pass"
+        class="form-control form-control-lg"
+        id="exampleInputPassword1"
+        [(ngModel)]="password"
+        placeholder="Password"
+      />
+    </div>
+  </form>
+  <button class="btn cust-btn" (click)="signUp()">
+    <strong>le'me explore MEGA</strong>
+  </button>
+  <ng-template #errorModal>
+    <div class="modal-header justify-content-center">
+      <h4 class="modal-title pull-left" style="color: coral;">
+        {{ errorMessage.header }}
+      </h4>
+    </div>
+    <div class="modal-body">
+      <markdown [data]="errorMessage.body"> </markdown>
+    </div>
+  </ng-template>
+
+  <ng-template #loginModal>
+    <div class="modal-header justify-content-center">
+      <h4 class="modal-title pull-left">Login</h4>
+    </div>
+    <div
+      class="relative-backdrop"
+      [ngClass]="{ 'show-backdrop': userExistError }"
+    ></div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label
+            for="exampleInputEmail1"
+            class="col-form-label col-form-label-lg"
+            >Email address</label
+          >
+          <input
+            type="email"
+            class="form-control form-control-lg"
+            id="exampleInputEmail1"
+            autocomplete="off"
+            aria-describedby="emailHelp"
+            [(ngModel)]="email"
+            placeholder="example@mega.nz"
+            name="email"
+          />
+          <small id="emailHelp" class="form-text text-muted"
+            >We'll never share your email with anyone else.</small
+          >
+          <small id="emailHelp" class="form-text text-muted badge"
+            >EMAIL | <span class="text-primary">{{ email }}</span></small
+          >
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1" class="col-form-label col-form-label-lg">Email address</label>
-            <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" autocomplete="off"
-                aria-describedby="emailHelp" [(ngModel)]="email" placeholder="example@mega.nz" name="email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            <small id="emailHelp" class="form-text text-muted badge">EMAIL | <span
-                    class="text-primary">{{email}}</span></small>
+          <label
+            for="exampleInputPassword1"
+            class="col-form-label col-form-label-lg"
+            >Password</label
+          >
+          <input
+            type="password"
+            name="pass"
+            class="form-control form-control-lg"
+            id="exampleInputPassword1"
+            [(ngModel)]="password"
+            placeholder="Password"
+          />
         </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1" class="col-form-label col-form-label-lg">Password</label>
-            <input type="password" name="pass" class="form-control form-control-lg" id="exampleInputPassword1" [(ngModel)]="password"
-                placeholder="Password">
-        </div>
-        <div class="progress form-group hide" [ngClass]="{'hide':hide}">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
-                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': widthExp}"></div>
-        </div>
-    </form>
-    <button class="btn cust-btn" (click)="showProgress()"><strong>le'me explore MEGA</strong></button>
+      </form>
+      <div style="text-align:center">
+        <button class="btn cust-btn" (click)="logIn()">
+          <strong>le'me explore MEGA</strong>
+        </button>
+      </div>
+    </div>
+  </ng-template>
 </div>

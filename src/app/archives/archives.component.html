@@ -15,7 +15,7 @@
         <span class="navbar-brand">
           {{ (me$ | async) && titleCase((me$ | async).email) }}
         </span>
-        <span style="width:18px;">
+        <span style="width:18px;" (click)="logout()">
           <img style="width:100%" src="/assets/images/logout.svg" />
         </span>
       </div>

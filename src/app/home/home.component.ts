@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, FormArray, Validators } from '@angular/forms'
-import { Router } from '@angular/router';
-import { UserService } from './home.service';
-import { Store, select } from '@ngrx/store';
-import { increment, setUser } from '../auth/auth.actions';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
+import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { UserService } from './home.service'
+import { Store, select } from '@ngrx/store'
+import { increment, setUser } from '../auth/auth.actions'
+import { BsModalService, BsModalRef } from 'ngx-bootstrap'
+import { markdown } from 'markdown'
 
 @Component({
   selector: 'app-home',
@@ -11,55 +13,100 @@ import { increment, setUser } from '../auth/auth.actions';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private store: Store<{ auth: any }>,
+    private modalService: BsModalService
+  ) {}
 
-  constructor(private router: Router,
-              private userService: UserService,
-              private store: Store<{auth: any}>) { }
+  @ViewChild('errorModal') errorModal: ElementRef<any>
 
-  title = 'megalinks';
-  widthExp = '0%';
-  check = true;
+  title = 'megalinks'
+  widthExp = '0%'
+  userExistError = false
+  check = true
   progress = 0
-  hide = true;
-  me$;
+  errorMessage = { header: '', body: '' } //body can be markdown content
+  modalRef: BsModalRef
+  me$
 
-  password;
-  email;
+  password
+  email
 
-  form = new FormControl({});
+  form = new FormControl({})
 
   ngOnInit() {
-    if(localStorage.getItem('email')) {
-    this.router.navigate(["/archives"]);
-    return;  
+    if (localStorage.getItem('email')) {
+      this.router.navigate(['/archives'])
+      return
     }
 
     this.store.pipe(select('auth')).subscribe(data => {
-      console.log("data",data)
+      console.log('data', data)
     })
-   }
 
-  showProgress() {
-    this.hide = false;
-
-    
-    this.userService.saveUser(this.email,this.password).subscribe( (res: string) => {
-      console.log(res)
-      this.store.dispatch(setUser({email:res}));
-      localStorage.setItem('email',res);
-    });
-
-    /// the following part is done for loading animation purpose only
-    const loop = [{ per: 25, time: 500 }, { per: 50, time: 1300 }, { per: 75, time: 2000 }, { per: 100, time: 3000 }]
-    loop.forEach(({ per, time }) => {
-      setTimeout(() => {
-        this.widthExp = `${per}%`
-      }, time)
+    this.modalService.onHide.subscribe(data => {
+      console.log('CLOSED THE MODAL SERVICE', data)
+      this.userExistError = false
     })
-    setTimeout(()=> {
-      this.router.navigate(['/archives']);
-    },4000)
-
   }
 
+  openModal(template, modalClass) {
+    this.modalRef = this.modalService.show(template, {
+      class: modalClass
+    })
+  }
+
+  handler(test, $event) {
+    console.log('test', $event)
+  }
+
+  signUp() {
+    this.userService.saveUser(this.email, this.password).subscribe(
+      (res: string) => {
+        console.log(res)
+        this.store.dispatch(setUser({ email: res }))
+        localStorage.setItem('email', res)
+        this.router.navigate(['/archives'])
+      },
+      error => {
+        console.log(error)
+        this.userExistError = true
+        this.errorMessage = {
+          header: 'User exists already!',
+          body: 'Please **`Login`** / **`Signup`** with different e-mail'
+        }
+        this.modalRef = this.modalService.show(this.errorModal, {
+          class: 'modal-dialog-centered'
+        })
+      }
+    )
+  }
+
+  logIn() {
+    this.userService.login(this.email, this.password).subscribe(
+      (res: string) => {
+        console.log(res)
+        this.store.dispatch(setUser({ email: res }))
+        localStorage.setItem('email', res)
+        this.modalRef.hide()
+        this.router.navigate(['/archives'])
+      },
+      error => {
+        this.userExistError = true
+        this.errorMessage = {
+          header: 'Something went wrong!',
+          body: "**`User`** might not exists / **`Password`**  doesn't match."
+        }
+        this.modalRef = this.modalService.show(this.errorModal, {
+          class: 'modal-dialog-centered'
+        })
+      }
+    )
+  }
+
+  markdownHtml(str) {
+    return markdown.toHTML(str)
+  }
 }

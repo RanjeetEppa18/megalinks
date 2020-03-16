@@ -11,6 +11,7 @@ import { markdown } from 'markdown'
 import { Store, select } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { setUser } from '../auth/auth.actions'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-archives',
@@ -21,7 +22,8 @@ export class ArchivesComponent implements OnInit {
   constructor(
     private modalSerivce: BsModalService,
     private archiveService: ArchiveService,
-    private authStore: Store<{ auth: any }>
+    private authStore: Store<{ auth: any }>,
+    private router: Router
   ) {}
 
   @ViewChild('staticBackdrop', { static: true }) content: ElementRef<any>
@@ -77,7 +79,9 @@ export class ArchivesComponent implements OnInit {
     this.reddit = markdown.toHTML(
       `**r/${archive.subreddit}** • _posted by_  u/${archive.author}`
     )
-    this.modalRef = this.modalSerivce.show(template, { class: 'modal-lg' })
+    this.modalRef = this.modalSerivce.show(template, {
+      class: 'archive-modal modal-lg'
+    })
   }
 
   searchAndFilter() {
@@ -188,5 +192,10 @@ export class ArchivesComponent implements OnInit {
         }
       })
     })
+  }
+
+  logout() {
+    localStorage.removeItem('email')
+    this.router.navigate(['/home'])
   }
 }
