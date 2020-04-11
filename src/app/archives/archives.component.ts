@@ -3,7 +3,7 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { ArchiveService } from './archives.service'
@@ -16,7 +16,7 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'app-archives',
   templateUrl: './archives.component.html',
-  styleUrls: ['./archives.component.scss']
+  styleUrls: ['./archives.component.scss'],
 })
 export class ArchivesComponent implements OnInit {
   constructor(
@@ -59,19 +59,18 @@ export class ArchivesComponent implements OnInit {
     }
 
     /// get all megalinks record
-    this.archiveService.getArchives().subscribe(data => {
+    this.archiveService.getArchives().subscribe((data) => {
       this.allArchives = data
       this.filteredArchives = data
-      console.log('ALL Archives:', this.allArchives)
     })
 
     /// get user name
     this.me$ = this.authStore.pipe(select('auth'))
-    this.me$.subscribe(data => {})
+    this.me$.subscribe((data) => {})
   }
 
   openModal(template: TemplateRef<any>, archive) {
-    this.archiveService.getArchiveComments(archive.idstr).subscribe(data => {
+    this.archiveService.getArchiveComments(archive.idstr).subscribe((data) => {
       this.currentArchive = archive
       this.currentArchiveComments = data
       this.commentsTree = this.commentsToTree(this.currentArchiveComments)
@@ -80,7 +79,7 @@ export class ArchivesComponent implements OnInit {
       `**r/${archive.subreddit}** • _posted by_  u/${archive.author}`
     )
     this.modalRef = this.modalSerivce.show(template, {
-      class: 'archive-modal modal-lg'
+      class: 'archive-modal modal-lg',
     })
   }
 
@@ -110,7 +109,7 @@ export class ArchivesComponent implements OnInit {
 
   markToHtml(markString: string | Array<string>) {
     if (typeof markString === 'string') return markdown.toHTML(markString)
-    return markString.map(str => markdown.toHTML(str))
+    return markString.map((str) => markdown.toHTML(str))
   }
 
   commentsToTree(list) {
@@ -122,7 +121,7 @@ export class ArchivesComponent implements OnInit {
       item.children = [] // initialize the children
     })
 
-    list.forEach(item => {
+    list.forEach((item) => {
       node = item
       if (node.parent !== this.currentArchive.idstr) {
         // if you have dangling branches check that map[node.parentId] exists
@@ -141,7 +140,7 @@ export class ArchivesComponent implements OnInit {
 
   titleCase(str) {
     str = str.toLowerCase().split(' ')
-    str = str.map(char => {
+    str = str.map((char) => {
       char = char.charAt(0).toUpperCase() + char.slice(1)
       return char
     })
@@ -149,18 +148,18 @@ export class ArchivesComponent implements OnInit {
   }
 
   ordinarySearch() {
-    this.filteredArchives = this.allArchives.filter(archive => {
+    this.filteredArchives = this.allArchives.filter((archive) => {
       return archive.title.toLowerCase().includes(this.searchTerm.toLowerCase())
     })
   }
   keywordSearch() {
-    this.filteredArchives = this.allArchives.filter(archive => {
+    this.filteredArchives = this.allArchives.filter((archive) => {
       let chunkedArchiveTitle: Array<string> = archive.title
         .toLowerCase()
         .split(' ')
       const chunkedSearchTerm = this.searchTerm.toLowerCase().split(' ')
-      return chunkedSearchTerm.every(sT => {
-        const ind = chunkedArchiveTitle.findIndex(cAT =>
+      return chunkedSearchTerm.every((sT) => {
+        const ind = chunkedArchiveTitle.findIndex((cAT) =>
           cAT.includes(sT.toLowerCase())
         )
         if (ind >= 0) {
@@ -176,10 +175,10 @@ export class ArchivesComponent implements OnInit {
     })
   }
   deepSearch() {
-    this.filteredArchives = this.allArchives.filter(archive => {
+    this.filteredArchives = this.allArchives.filter((archive) => {
       let spreadedArchiveTitle = [...archive.title.toLowerCase()]
       const spreadedSearchTerm = [...this.searchTerm]
-      return spreadedSearchTerm.every(sT => {
+      return spreadedSearchTerm.every((sT) => {
         const ind = spreadedArchiveTitle.indexOf(sT.toLowerCase())
         if (ind >= 0) {
           spreadedArchiveTitle = spreadedArchiveTitle.splice(

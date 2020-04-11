@@ -2,25 +2,21 @@
   <form>
     <div class="jumbotron mega-background jumbotron-padding-fix">
       <h1 class="display-4">
-        Welcome to
-        <small class="badge badge-pill badge-primary mega-color"
-          >MEGALINKS ARCHIVE</small
-        >
+        <small style="background: aliceblue;">MEGALINKS ARCHIVE</small>
       </h1>
       <p class="lead">
-        This is the site, which contains some of your favourite megalinks post
-        from
+        Contains archives from
         <a
-          href="https://reddit.com"
+          href="https://reddit.com/r/megalinks"
           target="_blank"
-          style="color: gold !important;"
-          >reddit.com</a
+          style="color: gold !important;text-decoration:underline;"
+          >reddit.com/r/megalinks</a
         >
+        subreddit <span style="color: aliceblue;">.</span>
       </p>
       <hr class="my-4" />
-      <p class="color-white">
-        It uses utility classes for typography and spacing to space content out
-        within the larger container.
+      <p class="color-white" style="text-align: center;">
+        Already have an account?
       </p>
       <div style="text-align: center;">
         <button
@@ -77,8 +73,8 @@
         {{ errorMessage.header }}
       </h4>
     </div>
-    <div class="modal-body">
-      <markdown [data]="errorMessage.body"> </markdown>
+    <div class="modal-body" style="text-align: center;">
+      <ng-template [ngTemplateOutlet]="errorMessage.template"></ng-template>
     </div>
   </ng-template>
 
@@ -137,5 +133,28 @@
         </button>
       </div>
     </div>
+  </ng-template>
+
+  <ng-template #signUpError>
+    <p>
+      Please
+      <strong style="cursor: pointer;" (click)="handleAuthEvents('login')"
+        ><code>Login</code></strong
+      >
+      /
+      <strong style="cursor: pointer;" (click)="handleAuthEvents('signup')"
+        ><code>Sign-up</code></strong
+      >
+      with different e-mail
+    </p>
+  </ng-template>
+
+  <ng-template #loginError>
+    <markdown
+      [popover]="email"
+      triggers="mouseenter:mouseleave"
+      data="**`User`** might not exist / **`Password`**  doesn't match."
+    >
+    </markdown>
   </ng-template>
 </div>

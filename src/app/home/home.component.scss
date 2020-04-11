@@ -1,5 +1,8 @@
 .cust-btn {
   background: #dbdbdb !important;
+  &:hover {
+    background: #ffb639 !important;
+  }
 }
 
 .jumbotron-padding-fix {

@@ -6,17 +6,17 @@
     </h1>
   </div> -->
   <nav
-    class="navbar  sticky-top navbar-light bg-light justify-content-between back"
+    class="navbar sticky-top navbar-light bg-light justify-content-between back"
   >
     <a class="navbar-brand">Megalinks Archives</a>
     <form class="form-inline">
       <div class="d-flex align-items-center">
-        <span style="color: #ffc107;font-size: xx-large;" class="mr-1">•</span>
+        <span style="color: #ffc107; font-size: xx-large;" class="mr-1">•</span>
         <span class="navbar-brand">
-          {{ (me$ | async) && titleCase((me$ | async).email) }}
+          {{ (me$ | async) && (me$ | async).email }}
         </span>
-        <span style="width:18px;" (click)="logout()">
-          <img style="width:100%" src="/assets/images/logout.svg" />
+        <span style="width: 18px;" (click)="logout()">
+          <img style="width: 100%;" src="/assets/images/logout.svg" />
         </span>
       </div>
     </form>
@@ -24,10 +24,17 @@
 
   <div
     class="form-group pt-3 back"
-    style="position: sticky; top: 3.5rem;z-index: 999;margin-bottom: 0 !important;padding-bottom:1rem; background: #f9f9f9"
+    style="
+      position: sticky;
+      top: 3.5rem;
+      z-index: 999;
+      margin-bottom: 0 !important;
+      padding-bottom: 1rem;
+      background: #f9f9f9;
+    "
   >
     <div class="search d-flex neu-morphism">
-      <strong class="col-form-label-lg" style="top:1rem">
+      <strong class="col-form-label-lg" style="top: 1rem;">
         <svg
           class="svg"
           height="20"
@@ -97,57 +104,59 @@
     </div>
   </div>
 
-  <pagination
-    *ngIf="filteredArchives?.length > itemsPerPage"
-    [totalItems]="filteredArchives?.length"
-    [maxSize]="3"
-    [itemsPerPage]="itemsPerPage"
-    [(ngModel)]="currentPage"
-    [rotate]="true"
-    [boundaryLinks]="true"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    (ngModelChange)="updateRowRange()"
-    class="mr-2 mt-3 d-flex justify-content-center"
-  >
-  </pagination>
-
-  <!-- Archives -->
-  <div class="list-group">
-    <span
-      *ngFor="let archive of filteredArchives | slice: range.start:range.end"
-      class="card list-group-item list-group-item-action cursor-pointer d-grid list-frame neu-morphism"
-      (click)="openModal(staticBackdrop, archive)"
+  <div *ngIf="filteredArchives?.length">
+    <pagination
+      *ngIf="filteredArchives?.length > itemsPerPage"
+      [totalItems]="filteredArchives?.length"
+      [maxSize]="3"
+      [itemsPerPage]="itemsPerPage"
+      [(ngModel)]="currentPage"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      (ngModelChange)="updateRowRange()"
+      class="mr-2 mt-3 d-flex justify-content-center"
     >
-      <span style="font-size: 1.2rem;border-right: dashed;">{{
-        archive.title
-      }}</span>
-      <span class="circle">
-        <span
-          style="font-size: 1rem;"
-          class="badge badge-primary badge-pill badge-score circle-content"
-          >{{ archive.score }}</span
-        >
+    </pagination>
+
+    <!-- Archives -->
+    <div class="list-group">
+      <span
+        *ngFor="let archive of filteredArchives | slice: range.start:range.end"
+        class="card list-group-item list-group-item-action cursor-pointer d-grid list-frame neu-morphism"
+        (click)="openModal(staticBackdrop, archive)"
+      >
+        <span style="font-size: 1.2rem; border-right: dashed;">{{
+          archive.title
+        }}</span>
+        <span class="circle">
+          <span
+            style="font-size: 1rem;"
+            class="badge badge-primary badge-pill badge-score circle-content"
+            >{{ archive.score }}</span
+          >
+        </span>
       </span>
-    </span>
+    </div>
+
+    <!-- pagination -->
+    <pagination
+      *ngIf="filteredArchives?.length > itemsPerPage"
+      [totalItems]="filteredArchives?.length"
+      [maxSize]="3"
+      [itemsPerPage]="itemsPerPage"
+      [(ngModel)]="currentPage"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      (ngModelChange)="updateRowRange()"
+      class="mr-2 mt-3 d-flex justify-content-center"
+    >
+    </pagination>
   </div>
-
-  <!-- pagination -->
-  <pagination
-    *ngIf="filteredArchives?.length > itemsPerPage"
-    [totalItems]="filteredArchives?.length"
-    [maxSize]="3"
-    [itemsPerPage]="itemsPerPage"
-    [(ngModel)]="currentPage"
-    [rotate]="true"
-    [boundaryLinks]="true"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    (ngModelChange)="updateRowRange()"
-    class="mr-2 mt-3 d-flex justify-content-center"
-  >
-  </pagination>
-
+  <div *ngIf="!filteredArchives?.length">Still Loading...</div>
   <!-- Modal -->
   <ng-template #staticBackdrop>
     <div class="modal-header">
@@ -168,7 +177,7 @@
       >
         <span
           aria-hidden="true"
-          style="font-size: 40px; font-weight: 100;color: white;"
+          style="font-size: 40px; font-weight: 100; color: white;"
           >&times;</span
         >
       </button>
@@ -181,12 +190,12 @@
       </markdown>
       <div
         *ngIf="currentArchive && !currentArchive.selftext"
-        style="text-align: center; font-family: proxima;font-weight: bolder;"
+        style="text-align: center; font-family: proxima; font-weight: bolder;"
       >
         <div>
-          <span style="width:3rem;">
+          <span style="width: 3rem;">
             <img
-              style="width:5rem;"
+              style="width: 5rem;"
               class="card-black"
               src="/assets/images/sailor-moon-luna-cat.svg"
             />

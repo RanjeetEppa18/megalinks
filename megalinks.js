@@ -1,4 +1,5 @@
 const express = require('express')
+// const mongoose = require('mongoose')
 const MongoClinet = require('mongodb').MongoClient
 const app = express()
 const cors = require('cors')
@@ -8,10 +9,11 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 
 const url = 'mongodb://localhost:27017'
 const dbName = 'megalinks'
-var db
-var allArchives
-const port = 5000
-// MONGODB CONNECTION COMMAND : /mongodb/server/4.0/bin/mongod.exe --dbpath=mongodb-data
+let db
+let allArchives = []
+const port = process.env.port || 5000
+
+// mongoose.connect(url, { useNewUrlParser: true })
 
 MongoClinet.connect(
   url,
@@ -20,23 +22,38 @@ MongoClinet.connect(
     if (err) {
       throw new Error('Could not connect to monogoURI')
     }
-    db = await mongoClient.db(dbName)
+    try {
+      let allLinksAdded = false
+      let addedLinks = 0
+      const chunkSize = 1000
 
-    db.collection('submissions')
-      .find({})
-      .sort({ score: -1 })
-      .toArray((err, res) => {
-        allArchives = res
-      })
+      db = await mongoClient.db(dbName)
+      while (!allLinksAdded) {
+        const linksFound = await db
+          .collection('submissions')
+          .find({})
+          .skip(addedLinks)
+          .limit(chunkSize)
+          .toArray()
+        if (linksFound.length) allArchives.push(...linksFound)
+        console.log('LINKS ADDED', allArchives.length)
+        addedLinks += linksFound.length
+        if (linksFound && !linksFound.length) allLinksAdded = true
+      }
+      console.log('ADDED ALL LINKS')
+    } catch (error) {
+      console.log('ERROR', error)
+    }
+    console.log('Successfully connected')
   }
 )
 
-app.get('/archives', function(req, res) {
+app.get('/archives', function (req, res) {
   console.log('sending all archives')
   res.send(allArchives)
 })
 
-app.get('/archivecomments/:id', function(req, res) {
+app.get('/archivecomments/:id', function (req, res) {
   var id = req.params['id']
   console.log('archive id:', id)
   MongoClinet.connect(
@@ -47,13 +64,13 @@ app.get('/archivecomments/:id', function(req, res) {
         throw new Error('Could not connect to monogoURI')
       }
       db = await mongoClient.db(dbName)
-
-      db.collection('comments')
+      const comments = await db
+        .collection('comments')
         .find({ submission: id })
         .sort({ score: -1 })
-        .toArray((err, comments) => {
-          res.send(comments)
-        })
+        .toArray()
+
+      res.send(comments)
     }
   )
 })

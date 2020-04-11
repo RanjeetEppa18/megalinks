@@ -21,13 +21,16 @@ export class HomeComponent implements OnInit {
   ) {}
 
   @ViewChild('errorModal') errorModal: ElementRef<any>
+  @ViewChild('loginError') loginErrorModal: ElementRef<any>
+  @ViewChild('signUpError') signUpErrorModal: ElementRef<any>
+  @ViewChild('loginModal') loginModal: ElementRef<any>
 
   title = 'megalinks'
   widthExp = '0%'
   userExistError = false
   check = true
   progress = 0
-  errorMessage = { header: '', body: '' } //body can be markdown content
+  errorMessage: { header: string; body: string; template: ElementRef<any> } //body can be markdown content
   modalRef: BsModalRef
   me$
 
@@ -75,13 +78,18 @@ export class HomeComponent implements OnInit {
         this.userExistError = true
         this.errorMessage = {
           header: 'User exists already!',
-          body: 'Please **`Login`** / **`Signup`** with different e-mail'
+          body: 'Please **`Login`** / **`Sign-up`** with different e-mail',
+          template: this.signUpErrorModal
         }
         this.modalRef = this.modalService.show(this.errorModal, {
           class: 'modal-dialog-centered'
         })
       }
     )
+  }
+
+  test() {
+    console.log('tested')
   }
 
   logIn() {
@@ -97,7 +105,8 @@ export class HomeComponent implements OnInit {
         this.userExistError = true
         this.errorMessage = {
           header: 'Something went wrong!',
-          body: "**`User`** might not exists / **`Password`**  doesn't match."
+          body: "**`User`** might not exists / **`Password`**  doesn't match.",
+          template: this.loginErrorModal
         }
         this.modalRef = this.modalService.show(this.errorModal, {
           class: 'modal-dialog-centered'
@@ -106,7 +115,18 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  markdownHtml(str) {
-    return markdown.toHTML(str)
+  handleAuthEvents(event) {
+    switch (event) {
+      case 'login':
+        this.userExistError = false
+        this.modalRef.hide()
+        this.openModal(this.loginModal, 'modal-dialog-centered')
+        break
+      case 'signup':
+        this.modalRef.hide()
+        break
+      default:
+        break
+    }
   }
 }
