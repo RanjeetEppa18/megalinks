@@ -18,10 +18,10 @@ const start = async () => {
   // app.use(bodyParser)
 
   // Serve only the static files form the dist directory
-  app.use(express.static(__dirname + '/dist/megalinks'))
+  app.use(express.static(__dirname + '/dist/razerlight'))
 
   app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname + '/dist/megalinks/index.html'))
+    res.sendFile(path.join(__dirname + '/dist/razerlight/index.html'))
   })
 
   app.listen(port, () => {
