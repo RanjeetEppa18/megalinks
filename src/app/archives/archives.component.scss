@@ -27,6 +27,10 @@
   margin-bottom: 0px !important;
 }
 
+::ng-deep .markdown-body {
+  font-size: 12px !important;
+}
+
 ::ng-deep .markdown-body table {
   color: white !important;
 }
@@ -61,7 +65,7 @@
 }
 
 .post-header {
-  color: #8e8e8e !important;
+  color: #e1e1e1 !important;
 }
 
 .cursor-pointer {
@@ -70,6 +74,15 @@
 
 .back-color {
   background: #ececec;
+}
+
+.back-overlay {
+  height: 50%;
+  position: absolute;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card-black {
@@ -99,8 +112,7 @@
 
 .list-group-item {
   color: #4f4d4d;
-  font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 app-comments .markdown-body blockquote {

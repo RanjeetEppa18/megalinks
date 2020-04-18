@@ -6,8 +6,10 @@ import { Observable, from } from 'rxjs'
 @Injectable()
 export class ArchiveService {
   constructor(private http: HttpClient) {}
-  getArchives() {
-    return this.http.get<any[]>(`${environment.domain}/api/archives`)
+  getArchives(searchTerm) {
+    return this.http.get<any[]>(
+      `${environment.domain}/api/archives/${searchTerm}`
+    )
   }
 
   getArchiveComments(archiveId) {

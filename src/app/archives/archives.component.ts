@@ -34,8 +34,8 @@ export class ArchivesComponent implements OnInit {
   // }
 
   modalRef: BsModalRef
-  allArchives: any[]
-  filteredArchives: any[]
+  allArchives = []
+  filteredArchives = []
   searchTerm = ''
   itemsPerPage = 30
   currentPage = 1
@@ -43,6 +43,7 @@ export class ArchivesComponent implements OnInit {
   reddit
   toggleDropdown = true
   searchType = 'ordinary'
+  backOverlayText = 'Search archives!'
   me$: Observable<any>
 
   ///current clicked archive
@@ -59,10 +60,6 @@ export class ArchivesComponent implements OnInit {
     }
 
     /// get all megalinks record
-    this.archiveService.getArchives().subscribe((data) => {
-      this.allArchives = data
-      this.filteredArchives = data
-    })
 
     /// get user name
     this.me$ = this.authStore.pipe(select('auth'))
@@ -83,9 +80,19 @@ export class ArchivesComponent implements OnInit {
     })
   }
 
-  searchAndFilter() {
+  searchAndFilter = () => {
+    this.backOverlayText = 'Searching...'
     this.currentPage = 1
     this.updateRowRange()
+    this.archiveService.getArchives(this.searchTerm).subscribe((data) => {
+      this.backOverlayText = data.length ? 'Search Archives!' : 'No data found!'
+      this.allArchives = data
+      this.filteredArchives = data
+      this.filterArchives()
+    })
+  }
+
+  filterArchives() {
     switch (this.searchType) {
       case 'ordinary':
         this.ordinarySearch()
@@ -135,7 +142,7 @@ export class ArchivesComponent implements OnInit {
 
   setSearchType(type: string) {
     this.searchType = type
-    this.searchAndFilter()
+    this.filterArchives()
   }
 
   titleCase(str) {

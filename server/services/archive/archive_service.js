@@ -1,8 +1,24 @@
 let allArchives = []
-const read = (Archive) => async () => {
+const read = (Archive) => async (searchTerm) => {
   try {
-    const archives = allArchives //await getArchives(Archive)
-    return archives
+    // const archives = allArchives //await getArchives(Archive)
+    const filteredArchives = allArchives.filter((archive) => {
+      let spreadedArchiveTitle = [...archive.title.toLowerCase()]
+      const spreadedSearchTerm = [...searchTerm]
+      return spreadedSearchTerm.every((sT) => {
+        const ind = spreadedArchiveTitle.indexOf(sT.toLowerCase())
+        if (ind >= 0) {
+          spreadedArchiveTitle = spreadedArchiveTitle.splice(
+            ind + 1,
+            spreadedArchiveTitle.length - 1
+          )
+          return true
+        } else {
+          return false
+        }
+      })
+    })
+    return filteredArchives
   } catch (error) {
     console.log('ERROR', error)
   }
