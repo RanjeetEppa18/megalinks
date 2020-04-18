@@ -42,8 +42,9 @@
         id="exampleInputSearch"
         [(ngModel)]="searchTerm"
         placeholder="Search"
+        (keyup.enter)="searchAndFilter()"
       />
-      <strong class="col-form-label-lg" style="top: 1rem;">
+      <strong class="col-form-label-lg" style="top: 1rem; cursor: pointer;">
         <svg
           class="svg"
           height="20"
@@ -134,7 +135,9 @@
         style="border-radius: 7px;"
         (click)="openModal(staticBackdrop, archive)"
       >
-        <span style="font-size: 0.8rem;">{{ archive.title }}</span>
+        <span style="font-size: 0.9rem; color: black; font-weight: 500;">{{
+          archive.title
+        }}</span>
         <!-- <span class="circle">
           <span
             style="font-size: 1rem;"
@@ -157,7 +160,8 @@
       previousText="&lsaquo;"
       nextText="&rsaquo;"
       (ngModelChange)="updateRowRange()"
-      class="mr-2 mt-3 d-flex justify-content-center"
+      style="height: 4rem;"
+      class="d-flex align-items-center justify-content-center m-0"
     >
     </pagination>
   </div>
